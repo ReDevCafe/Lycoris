@@ -22,7 +22,10 @@ public class ConstantPool implements ByteCodec {
         UTF8((byte) 1),
         MethodHandle((byte) 15),
         MethodType((byte) 16),
-        InvokeDynamic((byte) 18);
+        Dynamic((byte) 17),
+        InvokeDynamic((byte) 18),
+        Module((byte) 19),
+        Package((byte) 20);
 
         private final byte value;
 
@@ -70,7 +73,10 @@ public class ConstantPool implements ByteCodec {
             case UTF8 -> UTF8Info.decode(buffer);
             case MethodHandle -> MethodHandleInfo.decode(buffer);
             case MethodType -> MethodTypeInfo.decode(buffer);
+            case Dynamic -> DynamicInfo.decode(buffer);
             case InvokeDynamic -> InvokeDynamicInfo.decode(buffer);
+            case Module -> ModuleInfo.decode(buffer);
+            case Package -> PackageInfo.decode(buffer);
         };
         return new ConstantPool(tag, info);
     }
