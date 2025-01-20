@@ -5,6 +5,8 @@ import org.momento.lycoris.mixins.mixin.classe.structures.ConstantPool;
 import org.momento.lycoris.mixins.mixin.classe.structures.constants.ConstantInfo;
 import org.momento.lycoris.mixins.mixin.classe.structures.constants.UTF8Info;
 import org.momento.lycoris.mixins.mixin.classe.structures.infos.attributes.*;
+import org.momento.lycoris.mixins.mixin.classe.structures.infos.attributes.Module;
+import org.momento.lycoris.mixins.mixin.classe.structures.infos.attributes.Record;
 
 import java.nio.ByteBuffer;
 
@@ -41,7 +43,15 @@ public class AttributeInfo implements ByteCodec {
             case "RuntimeInvisibleParameterAnnotations", "RuntimeVisibleParameterAnnotations" -> RuntimeParameterAnnotations.decode(buffer);
             case "AnnotationDefault" -> AnnotationDefault.decode(buffer);
             case "BootstrapMethods" -> BootstrapMethods.decode(buffer);
+            case "RuntimeVisibleTypeAnnotations", "RuntimeInvisibleTypeAnnotations" -> RuntimeTypeAnnotations.decode(buffer);
+            case "MethodParameters" -> MethodParameters.decode(buffer);
+            case "Module" -> Module.decode(buffer);
+            case "ModulePackages" -> ModulePackages.decode(buffer);
+            case "ModuleMainClass" -> ModuleMainClass.decode(buffer);
+            case "NestHost" -> NestHost.decode(buffer);
             case "NestMembers" -> NestMembers.decode(buffer);
+            case "Record" -> Record.decode(constantPools, buffer);
+            case "PermittedSubclasses" -> PermittedSubclasses.decode(buffer);
             default -> null;
         };
         return new AttributeInfo(nameIndex, attribute);
