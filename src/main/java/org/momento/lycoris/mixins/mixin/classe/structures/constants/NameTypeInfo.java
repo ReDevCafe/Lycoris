@@ -28,4 +28,9 @@ public class NameTypeInfo extends ConstantInfo {
         buffer.putChar(nameIndex);
         buffer.putChar(descriptorIndex);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 4;
+    }
 }

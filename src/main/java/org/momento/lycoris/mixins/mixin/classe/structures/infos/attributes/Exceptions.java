@@ -21,7 +21,7 @@ public class Exceptions implements SizedByteCodec {
 
     @Override
     public int getSize() {
-        return 2 * exceptionIndexTable.length;
+        return 2 + 2 * exceptionIndexTable.length;
     }
 
     @Override

@@ -28,4 +28,9 @@ public class RefInfo extends ConstantInfo {
         buffer.putChar(classeIndex);
         buffer.putChar(nameTypeIndex);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 4;
+    }
 }

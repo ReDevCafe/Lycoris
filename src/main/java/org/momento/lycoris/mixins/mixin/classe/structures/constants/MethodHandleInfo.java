@@ -28,4 +28,9 @@ public class MethodHandleInfo extends ConstantInfo {
         buffer.put(referenceKind);
         buffer.putChar(referenceIndex);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 3;
+    }
 }

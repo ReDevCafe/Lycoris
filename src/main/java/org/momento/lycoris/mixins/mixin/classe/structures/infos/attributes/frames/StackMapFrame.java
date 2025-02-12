@@ -54,7 +54,7 @@ public abstract class StackMapFrame implements SizedByteCodec {
 
     @Override
     public int getSize() {
-        return 1;
+        return 2;
     }
 
     @Override

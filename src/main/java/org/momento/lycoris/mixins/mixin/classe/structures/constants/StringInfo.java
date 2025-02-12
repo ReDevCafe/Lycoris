@@ -24,4 +24,9 @@ public class StringInfo extends ConstantInfo {
         super.encode(buffer);
         buffer.putChar(stringIndex);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 2;
+    }
 }

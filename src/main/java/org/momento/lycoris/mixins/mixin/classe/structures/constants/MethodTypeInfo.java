@@ -24,4 +24,9 @@ public class MethodTypeInfo extends ConstantInfo {
         super.encode(buffer);
         buffer.putChar(descriptorIndex);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 2;
+    }
 }

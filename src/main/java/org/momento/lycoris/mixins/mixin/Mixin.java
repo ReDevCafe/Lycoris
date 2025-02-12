@@ -1,11 +1,12 @@
 package org.momento.lycoris.mixins.mixin;
 
-public class Mixin<T> {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    private Class<T> classe;
-
-    public Mixin(Class<T> classe) {
-        this.classe = classe;
-    }
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Mixin {
+    Class<?> value();
 }

@@ -27,7 +27,7 @@ public class BootstrapMethods implements SizedByteCodec {
 
         @Override
         public int getSize() {
-            return 2 + args.length * 2;
+            return 4 + args.length * 2;
         }
 
         @Override
@@ -56,7 +56,10 @@ public class BootstrapMethods implements SizedByteCodec {
 
     @Override
     public int getSize() {
-        return 0;
+        int baseSize = 2;
+        for (BootsrapMethod method : methods)
+            baseSize += method.getSize();
+        return baseSize;
     }
 
     @Override

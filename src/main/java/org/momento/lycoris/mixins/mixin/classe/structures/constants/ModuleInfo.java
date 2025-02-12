@@ -23,4 +23,9 @@ public class ModuleInfo extends ConstantInfo {
         super.encode(buffer);
         buffer.putChar(nameIndex);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 2;
+    }
 }

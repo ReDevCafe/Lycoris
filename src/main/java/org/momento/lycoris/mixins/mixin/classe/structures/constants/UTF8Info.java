@@ -29,4 +29,9 @@ public class UTF8Info extends ConstantInfo {
         buffer.putChar((char) string.length());
         buffer.put(StandardCharsets.UTF_8.encode(string));
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 2 + string.length();
+    }
 }

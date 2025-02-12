@@ -24,4 +24,9 @@ public class LongInfo extends ConstantInfo {
         super.encode(buffer);
         buffer.putLong(bytes);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 8;
+    }
 }

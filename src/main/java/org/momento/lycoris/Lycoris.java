@@ -6,6 +6,7 @@ import org.momento.lycoris.agent.JavaAgent;
 
 import javax.xml.transform.Transformer;
 import java.lang.instrument.ClassDefinition;
+import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.util.logging.Level;
 import java.util.logging.Logger;

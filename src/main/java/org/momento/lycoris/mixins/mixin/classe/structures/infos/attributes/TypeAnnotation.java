@@ -19,7 +19,19 @@ public class TypeAnnotation implements SizedByteCodec {
         RETURN_TYPE((byte) 0x14),
         RECEIVER_TYPE((byte) 0x15),
         PARAMETER_TYPE((byte) 0x16),
-        THROW_TYPE((byte) 0x17);
+        THROW_TYPE((byte) 0x17),
+        LOCAL_VAR_TYPE((byte) 0x40),
+        RESOURCE_VAR_TYPE((byte) 0x41),
+        EXCEPTION_TYPE((byte) 0x42),
+        INSTANCEOF_TYPE((byte) 0x43),
+        NEW_TYPE((byte) 0x44),
+        NEW_REF_TYPE((byte) 0x45),
+        IDENTIFIER_REF_TYPE((byte) 0x46),
+        CAST_TYPE((byte) 0x47),
+        GENERIC_CONSTRUCTOR_TYPE((byte) 0x48),
+        GENERIC_METHOD_TYPE((byte) 0x49),
+        GENERIC_CONSTRUCTOR_NEW_REF_TYPE((byte) 0x4a),
+        GENERIC_METHOD_IDENTIFIER_REF_TYPE((byte) 0x4b);
 
 
         private final byte value;
@@ -69,6 +81,10 @@ public class TypeAnnotation implements SizedByteCodec {
             case FIELD_TYPE, RETURN_TYPE, RECEIVER_TYPE -> EmptyTarget.decode(buffer);
             case PARAMETER_TYPE -> FormalParameterTarget.decode(buffer);
             case THROW_TYPE -> ThrowsTarget.decode(buffer);
+            case LOCAL_VAR_TYPE, RESOURCE_VAR_TYPE -> LocalVarTarget.decode(buffer);
+            case EXCEPTION_TYPE -> CatchTarget.decode(buffer);
+            case INSTANCEOF_TYPE, NEW_TYPE, NEW_REF_TYPE, IDENTIFIER_REF_TYPE -> OffsetTarget.decode(buffer);
+            case CAST_TYPE, GENERIC_CONSTRUCTOR_TYPE, GENERIC_METHOD_TYPE, GENERIC_CONSTRUCTOR_NEW_REF_TYPE, GENERIC_METHOD_IDENTIFIER_REF_TYPE -> TypeArgumentTarget.decode(buffer);
         };
         TypePath path = TypePath.decode(buffer);
         char typeIndex = buffer.getChar();

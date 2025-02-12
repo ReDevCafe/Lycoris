@@ -24,4 +24,9 @@ public class DoubleInfo extends ConstantInfo {
         super.encode(buffer);
         buffer.putDouble(bytes);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 8;
+    }
 }

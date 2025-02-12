@@ -10,7 +10,7 @@ import org.momento.lycoris.mixins.mixin.classe.structures.infos.attributes.Recor
 
 import java.nio.ByteBuffer;
 
-public class AttributeInfo implements ByteCodec {
+public class AttributeInfo implements SizedByteCodec {
 
     private final char nameIndex;
     private final SizedByteCodec attribute;
@@ -57,7 +57,8 @@ public class AttributeInfo implements ByteCodec {
         return new AttributeInfo(nameIndex, attribute);
     }
 
-    public int getSize() { return attribute.getSize(); }
+    @Override
+    public int getSize() { return 2 + attribute.getSize(); }
 
     @Override
     public void encode(ByteBuffer buffer) {

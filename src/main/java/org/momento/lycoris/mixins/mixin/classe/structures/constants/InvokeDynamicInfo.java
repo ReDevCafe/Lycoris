@@ -28,4 +28,9 @@ public class InvokeDynamicInfo extends ConstantInfo {
         buffer.putChar(bootstrapMethodAttrIndex);
         buffer.putChar(nameTypeIndex);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 4;
+    }
 }

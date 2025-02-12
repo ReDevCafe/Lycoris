@@ -24,4 +24,9 @@ public class IntegerInfo extends ConstantInfo {
         super.encode(buffer);
         buffer.putInt(bytes);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 4;
+    }
 }

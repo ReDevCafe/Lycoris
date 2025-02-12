@@ -20,7 +20,7 @@ public class SourceDebugExtension implements SizedByteCodec {
 
     @Override
     public int getSize() {
-        return debugExtension.length;
+        return 1 + debugExtension.length;
     }
 
     @Override

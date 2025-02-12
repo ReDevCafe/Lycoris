@@ -32,7 +32,7 @@ public class Code implements SizedByteCodec {
         }
 
         @Override
-        public int getSize() { return 4; }
+        public int getSize() { return 8; }
 
         @Override
         public void encode(ByteBuffer buffer) {
@@ -74,7 +74,7 @@ public class Code implements SizedByteCodec {
 
     @Override
     public int getSize() {
-        int baseSize = 18 + code.length;
+        int baseSize = 12 + code.length;
         for (Exception exception : exceptionTable)
             baseSize += exception.getSize();
         for (AttributeInfo attribute : attributes)

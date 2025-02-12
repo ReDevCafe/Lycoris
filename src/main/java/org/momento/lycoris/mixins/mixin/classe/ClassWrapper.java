@@ -1,18 +1,22 @@
 package org.momento.lycoris.mixins.mixin.classe;
 
+import org.momento.lycoris.agent.JavaAgent;
 import org.momento.lycoris.mixins.mixin.classe.structures.ConstantPool;
 import org.momento.lycoris.mixins.mixin.classe.structures.infos.AttributeInfo;
 import org.momento.lycoris.mixins.mixin.classe.structures.infos.FieldInfo;
 import org.momento.lycoris.mixins.mixin.classe.structures.infos.MethodInfo;
+import org.momento.lycoris.mixins.mixin.classe.structures.infos.attributes.SizedByteCodec;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassWrapper implements ByteCodec {
+public class ClassWrapper implements SizedByteCodec {
 
     public enum AccessFlag {
 
@@ -94,6 +98,20 @@ public class ClassWrapper implements ByteCodec {
         this.attributes = attributes;
     }
 
+    @Override
+    public int getSize() {
+        int baseSize = 24 + interfaces.length * 2;
+        for (ConstantPool cp : constantPool)
+            baseSize += cp.getSize();
+        for (FieldInfo fi : fields)
+            baseSize += fi.getSize();
+        for (MethodInfo mi : methods)
+            baseSize += mi.getSize();
+        for (AttributeInfo ai : attributes)
+            baseSize += ai.getSize();
+        return baseSize;
+    }
+
     public int getMagic() { return magic; }
     public char getMinorVersion() { return minorVersion; }
     public char getMajorVersion() { return majorVersion; }
@@ -123,6 +141,7 @@ public class ClassWrapper implements ByteCodec {
         for (int i = 0; i < fields.length; ++i)
             fields[i] = FieldInfo.decode(constantPool, buffer);
         MethodInfo[] methods = new MethodInfo[buffer.getChar()];
+        int pos = buffer.position();
         for (int i = 0; i < methods.length; ++i)
             methods[i] = MethodInfo.decode(constantPool, buffer);
         AttributeInfo[] attributes = new AttributeInfo[buffer.getChar()];
@@ -133,6 +152,15 @@ public class ClassWrapper implements ByteCodec {
 
     public static ClassWrapper decode(Path path) throws IOException {
         byte[] bytes = Files.readAllBytes(path);
+        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        return decode(buffer);
+    }
+
+    public static ClassWrapper decode(Class<?> clazz) throws IOException {
+        ClassLoader classLoader = clazz.getClassLoader();
+        if (classLoader == null)
+            classLoader = ClassLoader.getSystemClassLoader();
+        byte[] bytes = classLoader.getResourceAsStream(clazz.getName().replace('.', '/').concat(".class")).readAllBytes();
         ByteBuffer buffer = ByteBuffer.wrap(bytes);
         return decode(buffer);
     }
@@ -160,5 +188,11 @@ public class ClassWrapper implements ByteCodec {
         buffer.putChar((char) attributes.length);
         for (AttributeInfo a : attributes)
             a.encode(buffer);
+    }
+
+    public byte[] toByteArray() {
+        ByteBuffer buffer = ByteBuffer.allocate(getSize());
+        encode(buffer);
+        return buffer.array();
     }
 }

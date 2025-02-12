@@ -22,7 +22,10 @@ public class ArrayValue extends ElementValue {
 
     @Override
     public int getSize() {
-        return super.getSize() + 2 + elements.length;
+        int baseSize = super.getSize() + 2;
+        for (ElementValue element : elements)
+            baseSize += element.getSize();
+        return baseSize;
     }
 
     @Override

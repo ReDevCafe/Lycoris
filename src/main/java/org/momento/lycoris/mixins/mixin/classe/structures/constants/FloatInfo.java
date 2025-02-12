@@ -24,4 +24,9 @@ public class FloatInfo extends ConstantInfo {
         super.encode(buffer);
         buffer.putFloat(bytes);
     }
+
+    @Override
+    public int getSize() {
+        return super.getSize() + 4;
+    }
 }

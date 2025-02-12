@@ -2,10 +2,11 @@ package org.momento.lycoris.mixins.mixin.classe.structures;
 
 import org.momento.lycoris.mixins.mixin.classe.ByteCodec;
 import org.momento.lycoris.mixins.mixin.classe.structures.constants.*;
+import org.momento.lycoris.mixins.mixin.classe.structures.infos.attributes.SizedByteCodec;
 
 import java.nio.ByteBuffer;
 
-public class ConstantPool implements ByteCodec {
+public class ConstantPool implements SizedByteCodec {
 
     public enum Tag {
 
@@ -47,16 +48,12 @@ public class ConstantPool implements ByteCodec {
 
     }
 
-    private Tag tag;
     private ConstantInfo info;
 
-
-    public ConstantPool(final Tag tag, final ConstantInfo info) {
-        this.tag = tag;
+    public ConstantPool(final ConstantInfo info) {
         this.info = info;
     }
 
-    public Tag getTag() { return tag; }
     public ConstantInfo getInfo() { return info; }
 
     public static ConstantPool decode(ByteBuffer buffer) {
@@ -78,12 +75,16 @@ public class ConstantPool implements ByteCodec {
             case Module -> ModuleInfo.decode(buffer);
             case Package -> PackageInfo.decode(buffer);
         };
-        return new ConstantPool(tag, info);
+        return new ConstantPool(info);
+    }
+
+    @Override
+    public int getSize() {
+        return info.getSize();
     }
 
     @Override
     public void encode(ByteBuffer buffer) {
-        buffer.put(tag.getValue());
         info.encode(buffer);
     }
 
